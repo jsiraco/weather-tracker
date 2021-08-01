@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Weather Tracker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="./assets/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="title is-1 has-text-centered">
+                <strong>Weather Tracker</strong>
+            </h1>
+            <p class="subtitle has-text-centered">
+                & 5 day forecast
+            </p>
+        </div>
+    </header>
+    <br>
+    <div class="columns is-variable">
+        <nav class="column panel">
+            <div class="search">
+                <h2 class="panel-heading">Search here</h2>
+                <input class="input" type="text" placeholder="Search" id="location">
+                <button class="button is-link is-outlined is-fullwidth" type="button">Search</button>
+            </div>
+            <div class="column panel tabs saved-searches">
+
+            </div>
+        </nav>
+        <div class="column results">
+            <div class="card">
+                <div class="card-conent todays-results">
+                    <header class="card-header">
+                        <p class="card-header-title">Today</p>
+                    </header>
+                    <div class="card-content"></div>
+                </div>
+            </div>
+            <div>
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">Five-Day forecast</p>
+                    </header>
+                    <div class="card-content forecast"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./assets/script.js"></script>
+</body>
+
+</html>
