@@ -25,21 +25,21 @@
     <div class="columns is-variable">
         <nav class="column panel">
             <div class="search">
-                <h2 class="panel-heading">Search here</h2>
-                <input class="input" type="text" placeholder="Search" id="location">
-                <button class="button is-link is-outlined is-fullwidth" type="button">Search</button>
+                <h2 class="panel-heading">City name</h2>
+                <input type="text" class="input" name="" placeholder="Search" id="location">
+                <button class="button is-link is-outlined is-fullwidth" type="button" id="search-button">Search</button>
             </div>
-            <div class="column panel tabs saved-searches">
-
+            <div class="column panel tabs recent-searches">
+                <!-- Append other buttons here -->
             </div>
         </nav>
         <div class="column results">
             <div class="card">
-                <div class="card-conent todays-results">
+                <div class="card-conent">
                     <header class="card-header">
                         <p class="card-header-title">Today</p>
                     </header>
-                    <div class="card-content"></div>
+                    <div class="card-content todays-results"></div>
                 </div>
             </div>
             <div>
@@ -47,7 +47,9 @@
                     <header class="card-header">
                         <p class="card-header-title">Five-Day forecast</p>
                     </header>
-                    <div class="card-content forecast"></div>
+                    <div class="card-content forecast">
+                        <!-- Details on the forecast go here -->
+                    </div>
                 </div>
             </div>
         </div>
