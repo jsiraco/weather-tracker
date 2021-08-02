@@ -21,18 +21,24 @@ function init() {
     if (storedCities !== null) {
         recentCities = storedCities;
     }
-
     buildList(recentCities);
+    console.log(recentCities);
+
+}
+
+function clearText() {
+    searchEl.val("");
 }
 
 function buildToday(response) {
     let today = JSON.stringify(response.main);
     let tempContent = $("<p>").html(today);
     let todayDiv = $("<div>").addClass("content").append(tempContent);
-    todayResults.append(todayDiv);
+    todayResults.html(todayDiv);
 }
 
 function buildWeekly(response) {
+    forecastResl.html("")
     for (let i = 0; i < 5; i++) {
         let forecast = JSON.stringify(response.list[i].main);
         let forecastContent = $("<p>").html(forecast);
@@ -42,40 +48,47 @@ function buildWeekly(response) {
     }
 }
 
-function storeCity(e) {
-    localStorage.setItem("recents", JSON.stringify(e));
-    // recentCities.push(JSON.stringify(e));
+function storeCity(response) {
+    if (searchEl === "") {
+        return;
+    }
+    $(recentCities).push(JSON.stringify(response))
+    localStorage.setItem("recents", JSON.stringify(response));
 }
 
 //builds list
-function buildList(e) {
-    let prevSearchBtn = $("<button>").addClass("button is-link is-outlined is-fullwidth").html(e);
+function buildList(response) {
+    //let data = JSON.parse(localStorage.getItem("recents"));
+    //$(data).each((item) => {
+    let prevSearchBtn = $("<button>").addClass("button is-link is-outlined is-fullwidth").html(response);
     recentSearch.append(prevSearchBtn);
+
+
     $(prevSearchBtn).on("click", function () {
-        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${e}&units=imperial&appid=${APIKey}`)
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${response}&units=imperial&appid=${APIKey}`)
             .then(function (response) {
                 return response.json();
             })
             .then(function (response) {
-                console.log(response);
                 buildToday(response);
             })
-        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${e}&units=imperial&appid=${APIKey}`)
+        fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${response}&units=imperial&appid=${APIKey}`)
             .then(function (response) {
                 return response.json();
             })
             .then(function (response) {
                 buildWeekly(response);
-                console.log(response);
             })
     })
-
+    //})
 }
 
 ///Builds forecast
 $(searchBtn).on("click", function () {
+    if (searchEl === "") {
+        return;
+    }
     let city = searchEl.val();
-    console.log(recentCities);
 
     fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=imperial&appid=${APIKey}`)
         .then(function (response) {
@@ -83,26 +96,29 @@ $(searchBtn).on("click", function () {
         })
         .then(function (response) {
             buildWeekly(response);
-            console.log(response);
+            clearText();
         })
 })
 
 
 //Builds daily
 $(searchBtn).on("click", function () {
+    if (searchEl === "") {
+        return;
+    }
     let city = searchEl.val();
-    console.log(city);
+    console.log("LOOK HERE-------", recentCities);
 
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${APIKey}`)
         .then(function (response) {
             return response.json();
         })
         .then(function (response) {
-            console.log(response);
             buildToday(response);
-            storeCity(city);
-            buildList(city);
-            return;
+            buildList(response.name);
+            storeCity(response.name);
+            console.log("NOW LOOK HERE-------", recentCities);
+            clearText();
         })
     // .catch(function () {
     //     console.log("Error");
