@@ -1,5 +1,5 @@
 //API Key: 003e0821a54b9cbdfca00f36469eb0a5
-
+//Globals
 const searchEl = $("#location");
 const recentSearch = $(".recent-searches");
 const searchList = $(".search-list");
@@ -10,13 +10,7 @@ const searchBtn = $("#search-button");
 
 let recentCities = [];
 
-// recentCities.push("Ogunquit");
-// console.log(recentCities);
-
-const testWeather = [
-    { "coord": { "lon": 139.6917, "lat": 35.6895 }, "weather": [{ "id": 802, "main": "Clouds", "description": "scattered clouds", "icon": "03d" }], "base": "stations", "main": { "temp": 87.26, "feels_like": 97.25, "temp_min": 83.75, "temp_max": 90.79, "pressure": 1007, "humidity": 68 }, "visibility": 10000, "wind": { "speed": 1.99, "deg": 131, "gust": 5.01 }, "clouds": { "all": 40 }, "dt": 1627862701, "sys": { "type": 2, "id": 2001249, "country": "JP", "sunrise": 1627847380, "sunset": 1627897515 }, "timezone": 32400, "id": 1850144, "name": "Tokyo", "cod": 200 }
-]
-
+//gets items from local storage
 function init() {
     let storedCities = JSON.parse(localStorage.getItem("recents"));
 
@@ -25,11 +19,11 @@ function init() {
     }
     buildList(recentCities);
 }
-
+//Clears text fields
 function clearText() {
     searchEl.val("");
 }
-
+//Builds the daily forecast
 function buildToday(response) {
     let cityH = $("<h2>").addClass("subtitle").text(JSON.stringify(response.name));
     let today = "Temp: " + JSON.stringify(response.main.temp) + ", Feels Like: " + JSON.stringify(response.main.feels_like) + ", Humidity: " + JSON.stringify(response.main.humidity) + ", Conditions: " + JSON.stringify(response.weather[0].main);
@@ -38,6 +32,7 @@ function buildToday(response) {
     todayResults.html(todayDiv);
 }
 
+//Builds a weekly forecast
 function buildWeekly(response) {
     forecastResl.html("")
     //every 8 hours
@@ -52,11 +47,11 @@ function buildWeekly(response) {
     }
 }
 
-
+//Builds last search and appends buttons
 function buildLastSearch(response) {
     let prevSearchBtn = $("<button>").addClass("button is-link is-outlined is-fullwidth").html(response);
     recentSearch.append(prevSearchBtn);
-
+    //Adds event listener
     $(prevSearchBtn).on("click", function () {
         fetch(`https://api.openweathermap.org/data/2.5/weather?q=${response}&units=imperial&appid=${APIKey}`)
             .then(function (response) {
@@ -65,6 +60,7 @@ function buildLastSearch(response) {
             .then(function (response) {
                 buildToday(response);
             })
+            //This .catch prevents an error realted to the OpenWeather API paywall limitations
             .catch(function() {
                 console.log("");
             })
@@ -81,7 +77,7 @@ function buildLastSearch(response) {
     })
 }
 
-//builds list
+//builds list of locations
 function buildList() {
     for (let i = 0; i < recentCities.length; i++) {
         let prevSearchBtn = $("<button>").addClass("button is-link is-outlined is-fullwidth").html(recentCities[i]);
@@ -159,5 +155,5 @@ $(searchBtn).on("click", function () {
         })
 })
 
-
+//Initialized getItems
 init();
